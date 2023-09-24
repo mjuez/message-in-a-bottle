@@ -64,3 +64,11 @@ a {
     color: #06B6D4;
     text-decoration: none;
 }
+
+.loader {
+    text-align: center;
+}
+
+.no-visible {
+    display: none;
+}
