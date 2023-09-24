@@ -8,7 +8,7 @@ function pick_bottles(){
             return response.json();
         })
         .then(bottles => {
-            const galeryContainer = document.getElementById("galery");
+            const galeryContainer = document.getElementById("gallery");
             // galeryContainer.classList.add("grid-container");
             // galeryContainer.innerHTML = "";
             // document.getElementById("disclamer").classList.remove("no-visible");
@@ -50,6 +50,6 @@ function pick_bottles(){
             });
         })
         .catch(error => {
-        console.error(error);
+            console.error(error);
         });
 }
