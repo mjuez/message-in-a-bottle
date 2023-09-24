@@ -59,3 +59,8 @@ body {
 .italic {
     font-style: italic;
 }
+
+a {
+    color: #06B6D4;
+    text-decoration: none;
+}
