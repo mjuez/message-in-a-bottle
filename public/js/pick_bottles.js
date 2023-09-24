@@ -11,7 +11,7 @@ function pick_bottles(){
             const galeryContainer = document.getElementById("galery");
             galeryContainer.classList.add("grid-container");
             galeryContainer.innerHTML = "";
-            document.getElementById("disclamer").classList.remove("no-visible")
+            document.getElementById("disclamer").classList.remove("no-visible");
             bottles.forEach(bottle => {
                 const imageElement = document.createElement("img");
                 imageElement.src = bottle.image_url;
