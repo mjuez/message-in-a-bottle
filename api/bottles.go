@@ -10,9 +10,9 @@ import (
 )
 
 type Bottle struct {
-	Date       string `json:"date"`
-	ImageUrl   string `json:"image_url"`
-	MessageUrl string `json:"message_url"`
+	Date     string `json:"date"`
+	ImageUrl string `json:"image_url"`
+	Message  string `json:"message"`
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -52,9 +52,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 				fmt.Println("Cannot analyse date:", err)
 			} else {
 				jsonBottle := Bottle{
-					Date:       parsedDate.Format("02/01/06"),
-					ImageUrl:   url + bottle,
-					MessageUrl: url + bottleNoExt + ".txt",
+					Date:     parsedDate.Format("02/01/06"),
+					ImageUrl: url + bottle,
+					Message:  openBottle(url + bottleNoExt + ".txt"),
 				}
 				bottles = append(bottles, jsonBottle)
 			}
@@ -73,4 +73,26 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, encodingError.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func openBottle(messageUrl string) string {
+	response, err := http.Get(messageUrl)
+	if err != nil {
+		fmt.Println("HTTP request failed:", err)
+		return ""
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusOK {
+		fmt.Println("HTTP request failed. Code:", response.StatusCode)
+		return ""
+	}
+
+	message, err := io.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println("Problem parsing file:", err)
+		return ""
+	}
+
+	return string(message)
 }
