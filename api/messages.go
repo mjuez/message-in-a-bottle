@@ -43,7 +43,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	bottles := []Bottle{}
 	for _, match := range matches {
 		if len(match) >= 4 {
-			fmt.Println(match)
 			bottle := match[1]
 			bottleNoExt := match[2]
 			date := match[3]
