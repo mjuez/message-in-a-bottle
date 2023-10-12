@@ -1,4 +1,4 @@
-function pick_bottles(){
+function pickBottles(){
     const bottlesURL = '/api/bottles';
     fetch(bottlesURL)
         .then(response => {
@@ -9,12 +9,19 @@ function pick_bottles(){
         })
         .then(bottles => {
             const galeryContainer = document.getElementById("gallery");
-            // galeryContainer.classList.add("grid-container");
-            // galeryContainer.innerHTML = "";
-            // document.getElementById("disclamer").classList.remove("no-visible");
             bottles.forEach(bottle => {
-                const imageElement = document.createElement("img");
-                imageElement.src = bottle.image_url;
+                
+                const imageContainer = document.createElement("div");
+                
+                const preloadContainer = document.createElement("div");
+                preloadContainer.classList.add("preload");
+                imageContainer.appendChild(preloadContainer);
+                const preloadElement = document.createElement("img");
+                preloadElement.src = "img/preload.gif";
+                preloadContainer.appendChild(preloadElement);
+
+                imageContainer.classList.add("grid-item");
+                galeryContainer.appendChild(imageContainer);
 
                 const overlayContainer = document.createElement("div");
                 overlayContainer.classList.add("overlay");
@@ -31,22 +38,29 @@ function pick_bottles(){
                         overlayContainer.style.opacity = "0";
                     }
                 });
+                
                 const textContainer = document.createElement("div");
                 textContainer.classList.add("overlay-text");
+                overlayContainer.appendChild(textContainer);
+                
                 const dateContainer = document.createElement("div");
                 dateContainer.classList.add("date");
-                dateContainer.innerHTML = bottle.date;
-                const messageContainer = document.createElement("div");
-                messageContainer.innerHTML = bottle.message;
                 textContainer.appendChild(dateContainer);
-                textContainer.appendChild(messageContainer);
-                const imageContainer = document.createElement("div");
-                imageContainer.classList.add("grid-item");
                 
-                overlayContainer.appendChild(textContainer);
-                imageContainer.appendChild(imageElement);
-                imageContainer.appendChild(overlayContainer);
-                galeryContainer.appendChild(imageContainer);
+                const messageContainer = document.createElement("div");
+                textContainer.appendChild(messageContainer);
+                
+                openBottle(bottle.messageUrl).then(message => {
+                    const imageElement = document.createElement("img");
+                    imageElement.src = bottle.url;
+
+                    dateContainer.innerHTML = bottle.date;
+                    messageContainer.innerHTML = message;
+                    
+                    imageContainer.removeChild(imageContainer.firstChild);
+                    imageContainer.appendChild(imageElement);
+                    imageContainer.appendChild(overlayContainer);
+                });
             });
         })
         .catch(error => {

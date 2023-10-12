@@ -10,15 +10,16 @@ import (
 )
 
 type Bottle struct {
-	Date     string `json:"date"`
-	ImageUrl string `json:"image_url"`
-	Message  string `json:"message"`
+	Date       string `json:"date"`
+	BottleUrl  string `json:"url"`
+	MessageUrl string `json:"messageUrl"`
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
-	url := "https://filedn.com/lQG3rKUjKEekfVlDSgDuyvR/message_in_a_bottle/messages/"
+func BottlesHandler(w http.ResponseWriter, r *http.Request) {
+	bottlesUrl := "https://filedn.com/lQG3rKUjKEekfVlDSgDuyvR/message_in_a_bottle/bottles/"
+	messagesUrl := "https://filedn.com/lQG3rKUjKEekfVlDSgDuyvR/message_in_a_bottle/messages/"
 
-	response, err := http.Get(url)
+	response, err := http.Get(bottlesUrl)
 	if err != nil {
 		fmt.Println("Can't get the URL", err)
 		return
@@ -52,9 +53,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 				fmt.Println("Cannot analyse date:", err)
 			} else {
 				jsonBottle := Bottle{
-					Date:     parsedDate.Format("02/01/06"),
-					ImageUrl: url + bottle,
-					Message:  openBottle(url + bottleNoExt + ".txt"),
+					Date:       parsedDate.Format("02/01/06"),
+					BottleUrl:  bottlesUrl + bottle,
+					MessageUrl: messagesUrl + bottleNoExt + ".txt",
 				}
 				bottles = append(bottles, jsonBottle)
 			}
@@ -73,26 +74,4 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, encodingError.Error(), http.StatusInternalServerError)
 		return
 	}
-}
-
-func openBottle(messageUrl string) string {
-	response, err := http.Get(messageUrl)
-	if err != nil {
-		fmt.Println("HTTP request failed:", err)
-		return ""
-	}
-	defer response.Body.Close()
-
-	if response.StatusCode != http.StatusOK {
-		fmt.Println("HTTP request failed. Code:", response.StatusCode)
-		return ""
-	}
-
-	message, err := io.ReadAll(response.Body)
-	if err != nil {
-		fmt.Println("Problem parsing file:", err)
-		return ""
-	}
-
-	return string(message)
 }

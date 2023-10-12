@@ -72,3 +72,12 @@ a {
 .no-visible {
     display: none;
 }
+
+.preload {
+    text-align:center;
+    padding: 3vh;
+}
+
+.preload img {
+    width: auto;
+}

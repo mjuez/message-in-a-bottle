@@ -4,6 +4,7 @@
     <title>Message in a bottle</title>
     <link rel="stylesheet" href="css/styles.css">
     <script type="text/javascript" src="js/detect_device.js"></script>
+    <script type="text/javascript" src="js/open_bottle.js"></script>
     <script type="text/javascript" src="js/pick_bottles.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -13,16 +14,8 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <!--<div id="galery">
-        <div class="loader">
-            <img src="img/spinner.gif" />
-            <br />
-            Todo llega en esta vida...
-        </div>
-    </div>-->
     <div class="grid-container" id="gallery"></div>
     <div class="disclamer">
-    <!--<div class="disclamer no-visible" id="disclamer">-->
         <p class="bold italic">
             MIAB (Message In A Bottle)
         </p>
@@ -43,8 +36,8 @@
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-            detect_device();
-            pick_bottles();
+            detectDevice();
+            pickBottles();
         });
     </script>
 </body>
